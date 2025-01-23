@@ -21,6 +21,25 @@ public class PlayerScript : AgentObject
         {
             SeekForward(Target.position);
         }
+
+        Vector3 offset = gameObject.transform.position;
+        if (offset.x < -7f)
+        {
+            offset.x = -7f;
+        }
+        else if (offset.x > 7f)
+        {
+            offset.x = 7f;
+        }
+        if (offset.y < -4f)
+        {
+            offset.y = -4f;
+        }
+        else if (offset.y > 4f)
+        {
+            offset.y = 4f;
+        }
+        transform.position = offset;
     }
 
     private void SeekForward(Vector3 targetPosition)
