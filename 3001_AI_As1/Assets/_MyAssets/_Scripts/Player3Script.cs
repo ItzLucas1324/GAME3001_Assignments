@@ -13,6 +13,7 @@ public class Player3Script : AgentObject
     new void Start()
     {
         base.Start();
+        Debug.Log("Arrival is imminent!");
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -23,6 +24,25 @@ public class Player3Script : AgentObject
             Debug.LogWarning("No target assigned for arrival behavior!");
             return;
         }
+
+        Vector3 offset = gameObject.transform.position;
+        if (offset.x < -7f)
+        {
+            offset.x = -7f;
+        }
+        else if (offset.x > 7f)
+        {
+            offset.x = 7f;
+        }
+        if (offset.y < -4f)
+        {
+            offset.y = -4f;
+        }
+        else if (offset.y > 4f)
+        {
+            offset.y = 4f;
+        }
+        transform.position = offset;
 
         Arrive(Target.position);
     }
