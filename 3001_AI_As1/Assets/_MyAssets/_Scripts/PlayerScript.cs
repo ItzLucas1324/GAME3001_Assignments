@@ -11,7 +11,7 @@ public class PlayerScript : AgentObject
     new void Start()
     {
         base.Start();
-        Debug.Log("Starting figher...");
+        Debug.Log("Beginning the chase!");
         rb = GetComponent<Rigidbody2D>();
     }
 

@@ -11,7 +11,7 @@ public class Player2Script : AgentObject
     new void Start()
     {
         base.Start();
-        Debug.Log("Starting figher...");
+        Debug.Log("Starting to run away!");
         rb = GetComponent<Rigidbody2D>();
     }
 
