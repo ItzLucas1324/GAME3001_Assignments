@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : AgentObject
+public class Player2Script : AgentObject
 {
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
@@ -19,7 +19,7 @@ public class PlayerScript : AgentObject
     {
         if (Target != null)
         {
-            SeekForward(Target.position);
+            Flee(Target.position);
         }
 
         Vector3 offset = gameObject.transform.position;
@@ -42,9 +42,9 @@ public class PlayerScript : AgentObject
         transform.position = offset;
     }
 
-    private void SeekForward(Vector3 targetPosition)
+    private void Flee(Vector3 targetPosition)
     {
-        Vector2 direction = (targetPosition - transform.position).normalized;
+        Vector2 direction = (transform.position - targetPosition).normalized;
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90.0f;
 
         float angleDifference = Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z);
