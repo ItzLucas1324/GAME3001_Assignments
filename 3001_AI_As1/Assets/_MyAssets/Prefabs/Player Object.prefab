@@ -208,7 +208,7 @@ MonoBehaviour:
   m_hazard: {fileID: 0}
   moveSpeed: 5
   rotationSpeed: 200
-  clip: {fileID: 8300000, guid: 39076f70da1f1bd41bcdcca2e480cd6f, type: 3}
+  clip: {fileID: 8300000, guid: 2cc80ba2666cc5148b943571b465b8b3, type: 3}
 --- !u!82 &5523190187414252920
 AudioSource:
   m_ObjectHideFlags: 0
