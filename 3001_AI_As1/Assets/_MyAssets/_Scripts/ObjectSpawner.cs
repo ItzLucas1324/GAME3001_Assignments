@@ -123,20 +123,19 @@ public class ObjectSpawnScript : MonoBehaviour
             player4Script.Target = currentEnemy4.transform;
 
             Vector3 midpoint = (currentPlayer4.transform.position + currentEnemy4.transform.position) / 2;
-            currentAvoider = Instantiate(avoidancePrefab, midpoint, Quaternion.identity);
-
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                Destroy(currentEnemy);
-                Destroy(currentPlayer);
-                Destroy(currentEnemy2);
-                Destroy(currentPlayer2);
-                Destroy(currentEnemy3);
-                Destroy(currentPlayer3);
-                Destroy(currentEnemy4);
-                Destroy(currentPlayer4);
-                Destroy(currentAvoider);
-            }
+            currentAvoider = Instantiate(avoidancePrefab, midpoint, Quaternion.identity);           
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            Destroy(currentEnemy);
+            Destroy(currentPlayer);
+            Destroy(currentEnemy2);
+            Destroy(currentPlayer2);
+            Destroy(currentEnemy3);
+            Destroy(currentPlayer3);
+            Destroy(currentEnemy4);
+            Destroy(currentPlayer4);
+            Destroy(currentAvoider);
         }
     }
 }

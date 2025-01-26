@@ -123,8 +123,8 @@ MonoBehaviour:
   m_hazard: {fileID: 0}
   moveSpeed: 5
   rotationSpeed: 200
-  detectionRadius: 2
-  avoidanceStrength: 2
+  detectionRadius: 1.2
+  avoidanceStrength: 1.2
   stoppingDistance: 0.1
 --- !u!1 &5457159433877251361
 GameObject:
