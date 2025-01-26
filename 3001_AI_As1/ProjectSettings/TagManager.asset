@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Seek
   - Flee
+  - Hazard
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hazard
   - Water
   - UI
   - 

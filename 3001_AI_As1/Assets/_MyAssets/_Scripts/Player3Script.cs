@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Player3Script : AgentObject
 {
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float slowingRadius;
-    [SerializeField] private float stoppingDistance;
-    [SerializeField] private float rotationSpeed;
+    [SerializeField] float moveSpeed;
+    [SerializeField] float slowingRadius;
+    [SerializeField] float stoppingDistance;
+    [SerializeField] float rotationSpeed;
     private Rigidbody2D rb;
 
     new void Start()
