@@ -209,7 +209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 391, y: 148}
+  m_AnchoredPosition: {x: 375.8, y: 148}
   m_SizeDelta: {x: 180, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285214027
@@ -235,20 +235,20 @@ MonoBehaviour:
   m_text: 'Instructions:
 
 
-    1: Seek
+    Press 1: Seek
 
 
-    2: Flee
+    Press 2: Flee
 
 
-    3: Arrive
+    Press 3: Arrive
 
 
+    Press
     4: Avoid
 
 
-    0:
-    Reset
+    Press 0: Reset
 
 '
   m_isRightToLeft: 0
