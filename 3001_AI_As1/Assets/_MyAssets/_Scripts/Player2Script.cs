@@ -6,13 +6,22 @@ public class Player2Script : AgentObject
 {
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
+    [SerializeField] AudioClip run;
+    private AudioSource aud;
     private Rigidbody2D rb;
 
     new void Start()
     {
         base.Start();
         Debug.Log("Starting to run away!");
+        aud = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
+        PlayAudio();
+    }
+
+    void PlayAudio()
+    {
+        aud.PlayOneShot(run);
     }
 
     void Update()

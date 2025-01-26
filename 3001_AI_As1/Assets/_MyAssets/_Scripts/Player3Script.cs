@@ -8,6 +8,8 @@ public class Player3Script : AgentObject
     [SerializeField] float slowingRadius;
     [SerializeField] float stoppingDistance;
     [SerializeField] float rotationSpeed;
+    [SerializeField] AudioClip boom;
+    private AudioSource aud;
     private Rigidbody2D rb;
 
     new void Start()
@@ -15,6 +17,7 @@ public class Player3Script : AgentObject
         base.Start();
         Debug.Log("Arrival is imminent!");
         rb = GetComponent<Rigidbody2D>();
+        aud = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -89,6 +92,14 @@ public class Player3Script : AgentObject
             transform.Rotate(Vector3.forward, rotationAmount);
 
             rb.velocity = transform.up * desiredSpeed;
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Arrive"))
+        {
+            Debug.Log("Collision is working!");
+            aud.PlayOneShot(boom);
         }
     }
 }

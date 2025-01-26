@@ -6,12 +6,15 @@ public class PlayerScript : AgentObject
 {
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
+    [SerializeField] AudioClip clip;
+    private AudioSource aud;
     private Rigidbody2D rb;
 
     new void Start()
     {
         base.Start();
         Debug.Log("Beginning the chase!");
+        aud = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -53,5 +56,12 @@ public class PlayerScript : AgentObject
         transform.Rotate(Vector3.forward, rotationAmount);
 
         rb.velocity = transform.up * moveSpeed;
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Seek"))
+        {
+            aud.PlayOneShot(clip);
+        }
     }
 }

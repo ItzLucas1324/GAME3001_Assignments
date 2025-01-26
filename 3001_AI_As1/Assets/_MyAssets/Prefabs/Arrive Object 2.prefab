@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4783769082490852652}
   m_Layer: 0
   m_Name: Arrive Object 2
-  m_TagString: Seek
+  m_TagString: Arrive
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

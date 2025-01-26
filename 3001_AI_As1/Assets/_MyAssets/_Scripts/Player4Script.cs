@@ -9,11 +9,15 @@ public class Player4Script : AgentObject
     [SerializeField] float detectionRadius;
     [SerializeField] float avoidanceStrength;
     [SerializeField] float stoppingDistance;
+    [SerializeField] AudioClip clip;
+    private AudioSource aud;
     private Rigidbody2D rb;
 
     new void Start()
     {
         base.Start();
+        Debug.Log("Avoiding the enemy!");
+        aud = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -49,12 +53,12 @@ public class Player4Script : AgentObject
 
     private void AvoidAndSeek(Vector3 targetPosition)
     {
-        Vector2 directionToTarget = (targetPosition - transform.position).normalized;
+        Vector2 direction = (targetPosition - transform.position).normalized;
 
         RaycastHit2D hit = Physics2D.CircleCast(
             transform.position,
             detectionRadius,
-            directionToTarget,
+            direction,
             Mathf.Infinity,
             LayerMask.GetMask("Hazard")
         );
@@ -68,12 +72,8 @@ public class Player4Script : AgentObject
             float proximityFactor = Mathf.Clamp01(1 - hit.distance / detectionRadius);
             avoidanceVector = hazardDirection * (avoidanceStrength * proximityFactor);
         }
-        else
-        {
-            Debug.Log("No hazard detected.");
-        }
 
-        Vector2 combinedDirection = directionToTarget + avoidanceVector;
+        Vector2 combinedDirection = direction + avoidanceVector;
         combinedDirection.Normalize();
 
         float distanceToTarget = Vector2.Distance(transform.position, targetPosition);
@@ -90,7 +90,6 @@ public class Player4Script : AgentObject
 
         float targetAngle = Mathf.Atan2(combinedDirection.y, combinedDirection.x) * Mathf.Rad2Deg - 90.0f;
         float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, targetAngle);
-
         float rotationStep = rotationSpeed * Time.deltaTime;
         float rotationAmount = Mathf.Clamp(angleDifference, -rotationStep, rotationStep);
         transform.Rotate(Vector3.forward, rotationAmount);
@@ -100,6 +99,13 @@ public class Player4Script : AgentObject
         if (distanceToTarget <= stoppingDistance)
         {
             rb.velocity = Vector2.zero;
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Arrive"))
+        {
+            aud.PlayOneShot(clip);
         }
     }
 }
