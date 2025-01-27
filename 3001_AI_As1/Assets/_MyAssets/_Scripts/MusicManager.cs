@@ -24,7 +24,6 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
-        // Create separate GameObjects for each audio source to ensure clean separation
         GameObject introAudioObj = new GameObject("IntroAudio");
         GameObject mainAudioObj = new GameObject("MainAudio");
         
@@ -34,7 +33,6 @@ public class MusicManager : MonoBehaviour
         introAudioSource = introAudioObj.AddComponent<AudioSource>();
         mainAudioSource = mainAudioObj.AddComponent<AudioSource>();
         
-        // Configure audio sources
         introAudioSource.volume = 0.5f;
         mainAudioSource.volume = 0.5f;
         introAudioSource.loop = false;
@@ -48,26 +46,21 @@ public class MusicManager : MonoBehaviour
         introAudioSource.clip = introMusic;
         mainAudioSource.clip = mainMusic;
         
-        // Start intro music
         introAudioSource.Play();
         
-        // Start coroutine to monitor intro music completion
         StartCoroutine(MonitorIntroMusic());
     }
 
     private System.Collections.IEnumerator MonitorIntroMusic()
     {
         
-        // Wait until near the end of the intro music
         while (introAudioSource.time < introMusic.length - 0.1f)
         {
             yield return null;
         }
         
-        // Start main music
         mainAudioSource.Play();
         
-        // Optional fade out for intro music
         float fadeTime = 0.1f;
         float startVolume = introAudioSource.volume;
         
