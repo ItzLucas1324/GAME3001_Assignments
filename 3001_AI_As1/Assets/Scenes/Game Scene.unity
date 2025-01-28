@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 198797011}
   - component: {fileID: 198797012}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Object Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}

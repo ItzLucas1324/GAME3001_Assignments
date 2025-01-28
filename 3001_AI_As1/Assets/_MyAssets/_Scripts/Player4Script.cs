@@ -6,9 +6,10 @@ public class Player4Script : AgentObject
 {
     [SerializeField] float moveSpeed;
     [SerializeField] float rotationSpeed;
-    [SerializeField] float detectionRadius;
-    [SerializeField] float avoidanceStrength;
-    [SerializeField] float stoppingDistance;
+    [SerializeField] float whiskerLength;
+    [SerializeField] float whiskerAngle;
+    [SerializeField] float avoidanceWeight;
+    [SerializeField] LayerMask whiskerLayer;
     [SerializeField] AudioClip clip;
     private AudioSource aud;
     private Rigidbody2D rb;
@@ -29,6 +30,18 @@ public class Player4Script : AgentObject
             return;
         }
 
+        if (Target != null)
+        {
+            SeekForward(Target.position);
+            AvoidAndSeek();
+
+            if (Vector2.Distance(transform.position, Target.position) <= 0.1f)
+            {
+                rb.velocity = Vector2.zero;
+                return;
+            }
+        }
+
         Vector3 offset = gameObject.transform.position;
         if (offset.x < -7f)
         {
@@ -47,60 +60,67 @@ public class Player4Script : AgentObject
             offset.y = 4f;
         }
         transform.position = offset;
-
-        AvoidAndSeek(Target.position);
     }
 
-    private void AvoidAndSeek(Vector3 targetPosition)
+
+    private void AvoidAndSeek()
     {
-        Vector2 direction = (targetPosition - transform.position).normalized;
+        bool hitRight = CastWhisker(whiskerAngle, Color.red);
+        bool hitLeft = CastWhisker(-whiskerAngle, Color.blue);
 
-        RaycastHit2D hit = Physics2D.CircleCast(
-            transform.position,
-            detectionRadius,
-            direction,
-            Mathf.Infinity,
-            LayerMask.GetMask("Hazard")
-        );
+        if (hitRight)
+        {
+            RotateClockwise();
+        }
+        else if (hitLeft)
+        {
+            RotateCounterClockwise();
+        }
+    }
 
-        Vector2 avoidanceVector = Vector2.zero;
+    private void RotateCounterClockwise()
+    {
+        transform.Rotate(Vector3.forward, rotationSpeed * avoidanceWeight * Time.deltaTime);
+    }
+
+    private void RotateClockwise()
+    {
+        transform.Rotate(Vector3.forward, -rotationSpeed * avoidanceWeight * Time.deltaTime);
+    }
+
+    private bool CastWhisker(float angle, Color color)
+    {
+        bool hitResult = false;
+        Color rayColor = color;
+
+        Vector2 whiskerDirection = Quaternion.Euler(0, 0, angle) * transform.up;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, whiskerDirection, whiskerLength, whiskerLayer);
 
         if (hit.collider != null)
         {
-            Vector2 hazardDirection = (transform.position - hit.collider.transform.position).normalized;
-
-            float proximityFactor = Mathf.Clamp01(1 - hit.distance / detectionRadius);
-            avoidanceVector = hazardDirection * (avoidanceStrength * proximityFactor);
+            Debug.Log("Obastacle detected!");
+            rayColor = Color.green;
+            hitResult = true;
         }
 
-        Vector2 combinedDirection = direction + avoidanceVector;
-        combinedDirection.Normalize();
+        Debug.DrawRay(transform.position, whiskerDirection * whiskerLength, rayColor);
 
-        float distanceToTarget = Vector2.Distance(transform.position, targetPosition);
+        return hitResult;
+    }
+        private void SeekForward(Vector3 targetPosition)
+    {
+        Vector2 direction = (targetPosition - transform.position).normalized;
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90.0f;
 
-        float currentSpeed;
-        if (distanceToTarget <= stoppingDistance)
-        {
-            currentSpeed = 0f;
-        }
-        else
-        {
-            currentSpeed = moveSpeed;
-        }
-
-        float targetAngle = Mathf.Atan2(combinedDirection.y, combinedDirection.x) * Mathf.Rad2Deg - 90.0f;
-        float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, targetAngle);
+        float angleDifference = Mathf.DeltaAngle(targetAngle, transform.eulerAngles.z);
         float rotationStep = rotationSpeed * Time.deltaTime;
         float rotationAmount = Mathf.Clamp(angleDifference, -rotationStep, rotationStep);
         transform.Rotate(Vector3.forward, rotationAmount);
 
-        rb.velocity = transform.up * currentSpeed;
-
-        if (distanceToTarget <= stoppingDistance)
-        {
-            rb.velocity = Vector2.zero;
-        }
+        rb.velocity = transform.up * moveSpeed;
     }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Arrive"))

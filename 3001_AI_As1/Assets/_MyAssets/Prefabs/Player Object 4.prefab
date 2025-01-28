@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6534599879606835978}
   - component: {fileID: 549549644406674430}
   - component: {fileID: 127604878069461106}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player Object 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &6534599879606835978
 BoxCollider2D:
@@ -121,12 +121,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 7133915375477906542, guid: 26e7b40874f08994ba0d99abd54ca94c, type: 3}
-  m_hazard: {fileID: 1449967211921029007, guid: 187a851291ad14e4396060dbcf51c1d1, type: 3}
   moveSpeed: 5
-  rotationSpeed: 200
-  detectionRadius: 1.2
-  avoidanceStrength: 1.2
-  stoppingDistance: 0.1
+  rotationSpeed: 180
+  whiskerLength: 3
+  whiskerAngle: 20
+  avoidanceWeight: 2
+  whiskerLayer:
+    serializedVersion: 2
+    m_Bits: 8
   clip: {fileID: 8300000, guid: 39076f70da1f1bd41bcdcca2e480cd6f, type: 3}
 --- !u!82 &127604878069461106
 AudioSource:
@@ -234,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 498767667272780557}
   - component: {fileID: 1720372568503863179}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
