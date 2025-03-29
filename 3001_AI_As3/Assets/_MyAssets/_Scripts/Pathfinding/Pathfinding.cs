@@ -111,32 +111,27 @@ public class Pathfinding : MonoBehaviour
         {
             Vector3 targetPosition = grid.path[currentPathIndex].worldPosition;
 
-            // Move the seeker along the path
             seeker.position = Vector3.MoveTowards(seeker.position, targetPosition, moveSpeed * Time.deltaTime);
 
-            // Calculate the direction to the next target position
             Vector3 directionToTarget = targetPosition - seeker.position;
 
-            // Snap the movement to the closest cardinal direction (up, down, left, right)
-            if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y))  // Move horizontally (left or right)
+            if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y))
             {
                 if (directionToTarget.x > 0)
-                    directionToTarget = Vector3.right;  // Move right
+                    directionToTarget = Vector3.right;
                 else
-                    directionToTarget = Vector3.left;  // Move left
+                    directionToTarget = Vector3.left;
             }
-            else  // Move vertically (up or down)
+            else
             {
                 if (directionToTarget.y > 0)
-                    directionToTarget = Vector3.up;  // Move up
+                    directionToTarget = Vector3.up;
                 else
-                    directionToTarget = Vector3.down;  // Move down
+                    directionToTarget = Vector3.down;
             }
 
-            // If the agent is moving, rotate the child object to face the movement direction
             if (directionToTarget != Vector3.zero)
             {
-                // Rotate the agentRotationChild so that its up vector aligns with the directionToTarget
                 Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, directionToTarget);
                 agentRotationChild.rotation = targetRotation;
             }
