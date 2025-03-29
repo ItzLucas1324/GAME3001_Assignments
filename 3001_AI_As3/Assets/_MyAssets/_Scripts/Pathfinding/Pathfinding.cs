@@ -6,6 +6,7 @@ public class Pathfinding : MonoBehaviour
 {
     public Transform seeker, target;
     [SerializeField] public float moveSpeed;
+    [SerializeField] Transform agentRotationChild;
     int currentPathIndex = 0;
 
     Grid grid;
@@ -109,7 +110,36 @@ public class Pathfinding : MonoBehaviour
         if (currentPathIndex < grid.path.Count)
         {
             Vector3 targetPosition = grid.path[currentPathIndex].worldPosition;
+
+            // Move the seeker along the path
             seeker.position = Vector3.MoveTowards(seeker.position, targetPosition, moveSpeed * Time.deltaTime);
+
+            // Calculate the direction to the next target position
+            Vector3 directionToTarget = targetPosition - seeker.position;
+
+            // Snap the movement to the closest cardinal direction (up, down, left, right)
+            if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y))  // Move horizontally (left or right)
+            {
+                if (directionToTarget.x > 0)
+                    directionToTarget = Vector3.right;  // Move right
+                else
+                    directionToTarget = Vector3.left;  // Move left
+            }
+            else  // Move vertically (up or down)
+            {
+                if (directionToTarget.y > 0)
+                    directionToTarget = Vector3.up;  // Move up
+                else
+                    directionToTarget = Vector3.down;  // Move down
+            }
+
+            // If the agent is moving, rotate the child object to face the movement direction
+            if (directionToTarget != Vector3.zero)
+            {
+                // Rotate the agentRotationChild so that its up vector aligns with the directionToTarget
+                Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, directionToTarget);
+                agentRotationChild.rotation = targetRotation;
+            }
 
             if (Vector3.Distance(seeker.position, targetPosition) < 0.1f)
             {
