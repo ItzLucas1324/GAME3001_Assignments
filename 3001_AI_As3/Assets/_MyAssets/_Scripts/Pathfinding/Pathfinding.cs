@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     public Transform seeker, target;
-    [SerializeField] float moveSpeed;
+    [SerializeField] public float moveSpeed;
     int currentPathIndex = 0;
 
     Grid grid;
@@ -17,11 +17,13 @@ public class Pathfinding : MonoBehaviour
 
     private void Update()
     {
-        FindPath(seeker.position, target.position);
-
-        if (grid.path.Count > 0)
+        if (target != null)
         {
-            MoveAlongPath();
+            FindPath(seeker.position, target.position);
+            if (grid.path.Count > 0)
+            {
+                MoveAlongPath();
+            }
         }
     }
 
