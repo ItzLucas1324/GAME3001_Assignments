@@ -23,14 +23,20 @@ public class Grid : MonoBehaviour
     void CreateGrid()
     {
         grid = new Node[gridSizeX, gridSizeY];
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridWorldSize.x/2 - Vector3.up * gridWorldSize.y/2;
+        Vector3 worldBottomLeft = transform.position - new Vector3(gridWorldSize.x / 2, gridWorldSize.y / 2);
 
-        for (int x = 0; x < gridSizeX; x ++)
+        for (int x = 0; x < gridSizeX; x++)
         {
             for (int y = 0; y < gridSizeY; y++)
             {
+                // Get the world position of the center of each node.
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
-                bool walkable = !(Physics2D.OverlapCircle(worldPoint, nodeRadius, unwalkableMask));
+
+                // Use OverlapBox instead of OverlapCircle
+                Vector2 size = new Vector2(nodeDiameter, nodeDiameter); // Set the size of the box to match the node's size
+                bool walkable = !(Physics2D.OverlapBox(worldPoint, size, 0f, unwalkableMask));
+
+                // Assign the walkable status to the node.
                 grid[x, y] = new Node(walkable, worldPoint);
             }
         }
@@ -38,7 +44,7 @@ public class Grid : MonoBehaviour
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + gridWorldSize.x/2) / gridWorldSize.x;
+        float percentX = (worldPosition.x + gridWorldSize.x/ 2) / gridWorldSize.x;
         float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
