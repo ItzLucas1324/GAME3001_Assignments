@@ -5,6 +5,8 @@ using UnityEngine;
 public class Pathfinding : MonoBehaviour
 {
     public Transform seeker, target;
+    [SerializeField] float moveSpeed;
+    int currentPathIndex = 0;
 
     Grid grid;
 
@@ -16,6 +18,11 @@ public class Pathfinding : MonoBehaviour
     private void Update()
     {
         FindPath(seeker.position, target.position);
+
+        if (grid.path.Count > 0)
+        {
+            MoveAlongPath();
+        }
     }
 
     void FindPath(Vector3 startPos, Vector3 targetPos)
@@ -91,9 +98,21 @@ public class Pathfinding : MonoBehaviour
         int dstX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
-        if (dstX > dstY)
-            return 12 * dstY + 10 * (dstX - dstY);
-        return 14 * dstX + 10 * (dstY - dstX);
+        return 10 * (dstX + dstY);
        
+    }
+
+    void MoveAlongPath()
+    {
+        if (currentPathIndex < grid.path.Count)
+        {
+            Vector3 targetPosition = grid.path[currentPathIndex].worldPosition;
+            seeker.position = Vector3.MoveTowards(seeker.position, targetPosition, moveSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(seeker.position, targetPosition) < 0.1f)
+            {
+                currentPathIndex++;
+            }
+        }
     }
 }

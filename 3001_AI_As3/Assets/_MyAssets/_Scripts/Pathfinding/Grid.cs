@@ -29,14 +29,11 @@ public class Grid : MonoBehaviour
         {
             for (int y = 0; y < gridSizeY; y++)
             {
-                // Get the world position of the center of each node.
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);
 
-                // Use OverlapBox instead of OverlapCircle
-                Vector2 size = new Vector2(nodeDiameter, nodeDiameter); // Set the size of the box to match the node's size
+                Vector2 size = new Vector2(nodeDiameter, nodeDiameter);
                 bool walkable = !(Physics2D.OverlapBox(worldPoint, size, 0f, unwalkableMask));
 
-                // Assign the walkable status to the node.
                 grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
@@ -46,22 +43,17 @@ public class Grid : MonoBehaviour
     {
         List<Node> neighbours = new List<Node>();
 
-        for (int x = -1; x <= 1; x++)
+        int[] directionsX = { 0, 0, 1, -1 };
+        int[] directionsY = { 1, -1, 0, 0 };
+
+        for (int i = 0; i < directionsX.Length; i++)
         {
-            for (int y = -1; y <= 1; y++)
+            int checkX = node.gridX + directionsX[i];
+            int checkY = node.gridY + directionsY[i];
+
+            if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
             {
-                if (x == 0 && y == 0)
-                {
-                    continue;
-                }
-
-                int checkX = node.gridX + x;
-                int checkY = node.gridY + y;
-
-                if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
-                {
-                    neighbours.Add(grid[checkX, checkY]);
-                }
+                neighbours.Add(grid[checkX, checkY]);
             }
         }
         return neighbours;
@@ -80,10 +72,13 @@ public class Grid : MonoBehaviour
     }
 
     public List<Node> path;
+
+    // Visual Representation of Pathfinding
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));
-        
+
         if (grid != null)
         {
             foreach (Node n in grid)
