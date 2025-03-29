@@ -7,6 +7,7 @@ public class Pathfinding : MonoBehaviour
     public Transform seeker, target;
     [SerializeField] public float moveSpeed;
     [SerializeField] Transform agentRotationChild;
+    [SerializeField] AgentAnimationController anController;
     int currentPathIndex = 0;
 
     Grid grid;
@@ -14,6 +15,11 @@ public class Pathfinding : MonoBehaviour
     private void Awake()
     {
         grid = GetComponent<Grid>();
+    }
+
+    private void Start()
+    {
+        anController = FindObjectOfType<AgentAnimationController>();
     }
 
     private void Update()
@@ -135,6 +141,8 @@ public class Pathfinding : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, directionToTarget);
                 agentRotationChild.rotation = targetRotation;
             }
+
+            anController.UpdateAnimation(directionToTarget);
 
             if (Vector3.Distance(seeker.position, targetPosition) < 0.1f)
             {
