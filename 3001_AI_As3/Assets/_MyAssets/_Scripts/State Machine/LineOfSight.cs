@@ -2,10 +2,23 @@ using UnityEngine;
 
 public class LineOfSight : MonoBehaviour
 {
-    [SerializeField] float whiskerLength; 
-    [SerializeField] float whiskerAngle; 
+    [SerializeField] float whiskerLength;
+    [SerializeField] float whiskerAngle;
     [SerializeField] LayerMask detectionLayer;
     [SerializeField] LayerMask obstacleLayer;
+    [SerializeField] float idleTimeout = 1f;
+    private bool isDetected = false;
+    private float detectionTimer = 0f;
+
+    private StateMachine stateMachine;
+    private Pathfinding pathfindingScript;
+
+
+    private void Awake()
+    {
+        stateMachine = FindObjectOfType<StateMachine>();
+        pathfindingScript = FindObjectOfType<Pathfinding>();
+    }
 
     private void Update()
     {
@@ -16,13 +29,36 @@ public class LineOfSight : MonoBehaviour
     {
         bool playerDetectedRight = CastWhisker(whiskerAngle, Color.red);
         bool playerDetectedLeft = CastWhisker(-whiskerAngle, Color.red);
-        bool playerDetectedFarRight = CastWhisker(whiskerAngle * 2, Color.red); 
-        bool playerDetectedFarLeft = CastWhisker(-whiskerAngle * 2, Color.red); 
+        bool playerDetectedFarRight = CastWhisker(whiskerAngle * 2, Color.red);
+        bool playerDetectedFarLeft = CastWhisker(-whiskerAngle * 2, Color.red);
         bool playerDetectedFarStraight = CastWhisker(0, Color.red);
 
-        if (playerDetectedRight || playerDetectedLeft || playerDetectedFarRight || playerDetectedFarLeft || playerDetectedFarStraight)
+        bool isPlayerDetected = playerDetectedRight || playerDetectedLeft || playerDetectedFarRight || playerDetectedFarLeft || playerDetectedFarStraight;
+
+
+        if (isPlayerDetected)
         {
-            FindObjectOfType<StateMachine>().ChaseState();
+            if (!isDetected)
+            {
+                isDetected = true;
+                detectionTimer = 0f;
+                stateMachine.ChaseState();
+            }
+        }
+        else
+        {
+            if (isDetected)
+            {
+                detectionTimer += Time.deltaTime;
+
+                // If timer exceeds the idle timeout, transition to Idle state
+                if (detectionTimer >= idleTimeout)
+                {
+                    isDetected = false;  // Mark the player as no longer detected
+                    pathfindingScript.target = null;  // Stop the movement (clear the target)
+                    stateMachine.IdleState();  // Transition to Idle state
+                }
+            }
         }
     }
 

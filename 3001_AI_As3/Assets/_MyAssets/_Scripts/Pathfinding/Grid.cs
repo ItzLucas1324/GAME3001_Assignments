@@ -73,7 +73,7 @@ public class Grid : MonoBehaviour
 
     public List<Node> path;
 
-    // Visual Representation of Pathfinding
+     // Visual Representation of Pathfinding
 
     //private void OnDrawGizmos()
     //{

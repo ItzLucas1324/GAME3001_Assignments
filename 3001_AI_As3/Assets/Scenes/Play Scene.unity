@@ -612,7 +612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seeker: {fileID: 2058017774}
   target: {fileID: 0}
-  moveSpeed: 2.5
+  moveSpeed: 2
   agentRotationChild: {fileID: 1437534328}
   anController: {fileID: 0}
 --- !u!1 &519420028
@@ -734,7 +734,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1143945, y: 0.8375, z: 1}
+  m_LocalScale: {x: 0.84972584, y: 0.8375, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1437534328}
@@ -2896,13 +2896,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whiskerLength: 3
-  whiskerAngle: 30
+  whiskerAngle: 25
   detectionLayer:
     serializedVersion: 2
     m_Bits: 128
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256
+  idleTimeout: 3
 --- !u!1 &1645527638
 GameObject:
   m_ObjectHideFlags: 0

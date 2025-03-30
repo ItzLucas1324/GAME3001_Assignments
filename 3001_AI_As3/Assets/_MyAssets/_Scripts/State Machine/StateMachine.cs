@@ -45,7 +45,7 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    private void IdleState()
+    public void IdleState()
     {
         if (!isIdle)
         {
@@ -65,7 +65,7 @@ public class StateMachine : MonoBehaviour
         isIdle = false;
     }
 
-    private void PatrolState()
+    public void PatrolState()
     {
         patrolScript.Patrolling();
         if (patrolScript.HasReachedPatrolPoint())  
