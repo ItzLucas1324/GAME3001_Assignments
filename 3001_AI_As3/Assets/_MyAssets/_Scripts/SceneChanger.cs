@@ -5,6 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    public static SceneManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public void SceneChange()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
@@ -12,6 +26,36 @@ public class SceneChanger : MonoBehaviour
         if (currentSceneName == "Start Scene")
         {
             SceneManager.LoadScene("Play Scene");
+        }
+    }
+
+    public void ReturnToStart()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        
+        if (currentSceneName == "Win Scene" || currentSceneName == "Loser Scene")
+        {
+            SceneManager.LoadScene("Start Scene");
+        }
+    }
+
+    public void YouLose()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName == "Play Scene")
+        {
+            SceneManager.LoadScene("Loser Scene");
+        }
+    }
+
+    public void YouWin()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName == "Play Scene")
+        {
+            SceneManager.LoadScene("Win Scene");
         }
     }
 }
