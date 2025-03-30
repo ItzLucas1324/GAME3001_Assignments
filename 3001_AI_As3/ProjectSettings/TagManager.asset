@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wall
   - Patrol Point
+  - Enemy
   layers:
   - Default
   - TransparentFX

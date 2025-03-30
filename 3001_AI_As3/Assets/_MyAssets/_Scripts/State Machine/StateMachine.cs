@@ -94,6 +94,8 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeStateText()
     {
+        GameManager.Instance.SoundManager.PlaySound("State Change", 0.3f);
+
         if (currentState == State.Idle)
         {
             stateText.text = "Idle";

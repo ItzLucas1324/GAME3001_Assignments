@@ -83,9 +83,9 @@ public class PlayerScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("Wall") || other.CompareTag("Enemy"))
         {
-            GameManager.Instance.SoundManager.PlaySound("Wall Bump");
+            GameManager.Instance.SoundManager.PlaySound("Wall Bump", 1f);
         }
     }
 }

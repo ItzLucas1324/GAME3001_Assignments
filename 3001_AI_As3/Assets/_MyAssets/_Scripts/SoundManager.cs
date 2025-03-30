@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     private float masterVolume = 1f;
 
     private AudioSource sfxSource;
+    private AudioSource loopingSFXSource;
     public AudioSource musicSource;
 
     private Dictionary<string, AudioClip> sfxDictionary;
@@ -27,11 +28,13 @@ public class SoundManager : MonoBehaviour
     private void Initialize()
     {
         sfxSource = gameObject.AddComponent<AudioSource>();
+        loopingSFXSource = gameObject.AddComponent<AudioSource>();
         musicSource = gameObject.AddComponent<AudioSource>();
 
         sfxDictionary = new Dictionary<string, AudioClip>();
         musicDictionary = new Dictionary<string, AudioClip>();
 
+        loopingSFXSource.loop = true;
         musicSource.loop = true;
     }
 
@@ -71,11 +74,12 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySound(string soundKey)
+    public void PlaySound(string soundKey, float volume = 1f)
     {
         if (sfxDictionary.ContainsKey(soundKey))
         {
-            sfxSource.PlayOneShot(sfxDictionary[soundKey]);
+            AudioClip clip = sfxDictionary[soundKey];
+            sfxSource.PlayOneShot(clip, volume);
         }
         else
         {
@@ -85,14 +89,15 @@ public class SoundManager : MonoBehaviour
 
     public void PlayLoopingSound(string soundKey)
     {
+
         if (sfxDictionary.ContainsKey(soundKey))
         {
-            if (sfxSource.isPlaying && sfxSource.clip == sfxDictionary[soundKey])
+            if (loopingSFXSource.isPlaying && loopingSFXSource.clip == sfxDictionary[soundKey])
                 return;
 
-            sfxSource.clip = sfxDictionary[soundKey];
-            sfxSource.loop = true;
-            sfxSource.Play();
+            loopingSFXSource.Stop();
+            loopingSFXSource.clip = sfxDictionary[soundKey];
+            loopingSFXSource.Play();
         }
         else
         {
@@ -102,8 +107,11 @@ public class SoundManager : MonoBehaviour
 
     public void StopLoopingSound()
     {
-        sfxSource.Stop();
-        sfxSource.clip = null;
+        if (loopingSFXSource.isPlaying && loopingSFXSource.loop)
+        {
+            loopingSFXSource.Stop();
+            loopingSFXSource.clip = null;
+        }
     }
 
 
@@ -126,6 +134,7 @@ public class SoundManager : MonoBehaviour
     {
         sfxVolume = volume * masterVolume;
         sfxSource.volume = sfxVolume;
+        loopingSFXSource.volume = sfxVolume;
     }
 
     public void SetVolumeMusic(float volume)
@@ -138,6 +147,7 @@ public class SoundManager : MonoBehaviour
     {
         masterVolume = volume;
         sfxSource.volume = sfxVolume * masterVolume;
+        loopingSFXSource.volume = sfxVolume * masterVolume;
         musicSource.volume = musicVolume * masterVolume;
     }
 
