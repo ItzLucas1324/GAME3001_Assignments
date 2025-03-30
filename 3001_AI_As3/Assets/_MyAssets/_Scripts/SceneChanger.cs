@@ -36,6 +36,7 @@ public class SceneChanger : MonoBehaviour
         if (currentSceneName == "Win Scene" || currentSceneName == "Loser Scene")
         {
             SceneManager.LoadScene("Start Scene");
+            GameManager.Instance.SoundManager.PlayMusic("Pink Panther");
         }
     }
 
@@ -46,6 +47,7 @@ public class SceneChanger : MonoBehaviour
         if (currentSceneName == "Play Scene")
         {
             SceneManager.LoadScene("Loser Scene");
+            GameManager.Instance.SoundManager.PlayMusic("Losing Tune");
         }
     }
 
@@ -56,6 +58,7 @@ public class SceneChanger : MonoBehaviour
         if (currentSceneName == "Play Scene")
         {
             SceneManager.LoadScene("Win Scene");
+            GameManager.Instance.SoundManager.PlayMusic("Victory Tune");
         }
     }
 }

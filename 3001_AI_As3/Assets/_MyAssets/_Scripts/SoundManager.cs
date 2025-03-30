@@ -83,6 +83,30 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlayLoopingSound(string soundKey)
+    {
+        if (sfxDictionary.ContainsKey(soundKey))
+        {
+            if (sfxSource.isPlaying && sfxSource.clip == sfxDictionary[soundKey])
+                return;
+
+            sfxSource.clip = sfxDictionary[soundKey];
+            sfxSource.loop = true;
+            sfxSource.Play();
+        }
+        else
+        {
+            Debug.LogError("Sound key " + soundKey + " not found in SFX Dictionary.");
+        }
+    }
+
+    public void StopLoopingSound()
+    {
+        sfxSource.Stop();
+        sfxSource.clip = null;
+    }
+
+
     public void PlayMusic(string soundKey, bool loop = true)
     {
         if (musicDictionary.ContainsKey(soundKey))
@@ -134,5 +158,4 @@ public class SoundManager : MonoBehaviour
     {
         musicSource.Stop();
     }
-
 }
