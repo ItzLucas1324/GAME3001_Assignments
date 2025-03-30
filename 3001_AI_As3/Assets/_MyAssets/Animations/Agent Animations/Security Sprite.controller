@@ -13,7 +13,13 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
-    m_EventTreshold: -0.1
+    m_EventTreshold: 0.1
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: moveDirection
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7618968551850203110}
   m_Solo: 0
@@ -134,6 +140,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1361077594615677087}
@@ -341,6 +350,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: moveDirection
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4656776359232245499}
   m_Solo: 0
@@ -429,6 +441,12 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
+    m_EventTreshold: 0.1
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: moveDirectionY
     m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8967579572444511244}
@@ -597,13 +615,13 @@ AnimatorStateMachine:
     m_Position: {x: 260, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1361077594615677087}
-    m_Position: {x: 150, y: -60, z: 0}
+    m_Position: {x: 130, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7618968551850203110}
     m_Position: {x: 80, y: -220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2380169036617244666}
-    m_Position: {x: 310, y: -160, z: 0}
+    m_Position: {x: 330, y: -190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6068895689903224643}
     m_Position: {x: 310, y: -300, z: 0}
@@ -615,13 +633,13 @@ AnimatorStateMachine:
     m_Position: {x: 600, y: -180, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3321387501935363707}
-    m_Position: {x: 260, y: 40, z: 0}
+    m_Position: {x: 260, y: 20, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_AnyStatePosition: {x: -10, y: 0, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -821,6 +839,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1361077594615677087}
   m_Solo: 0
@@ -849,9 +870,12 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirectionY
     m_EventTreshold: 0.1
-  - m_ConditionMode: 2
+  - m_ConditionMode: 1
     m_ConditionEvent: isMovingVertically
     m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: moveDirection
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6068895689903224643}
   m_Solo: 0
@@ -879,6 +903,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: moveDirection
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4656776359232245499}
@@ -939,6 +966,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: moveDirection
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4656776359232245499}
   m_Solo: 0
@@ -998,6 +1028,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 3
     m_ConditionEvent: moveDirection
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4656776359232245499}
   m_Solo: 0
@@ -1056,6 +1089,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1361077594615677087}
   m_Solo: 0
@@ -1083,10 +1119,13 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirectionY
-    m_EventTreshold: -0.1
+    m_EventTreshold: 0.1
   - m_ConditionMode: 2
     m_ConditionEvent: isMovingVertically
     m_EventTreshold: 0
+  - m_ConditionMode: 4
+    m_ConditionEvent: moveDirection
+    m_EventTreshold: 0.1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -1209345012460883784}
   m_Solo: 0
@@ -1114,6 +1153,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 4
     m_ConditionEvent: moveDirection
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: isMovingVertically
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1361077594615677087}
@@ -1162,7 +1204,7 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1101 &7088328053112732929
 AnimatorStateTransition:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

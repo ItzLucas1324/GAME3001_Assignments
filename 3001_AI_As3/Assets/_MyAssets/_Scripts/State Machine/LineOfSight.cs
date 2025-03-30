@@ -4,7 +4,8 @@ public class LineOfSight : MonoBehaviour
 {
     [SerializeField] float whiskerLength; 
     [SerializeField] float whiskerAngle; 
-    [SerializeField] LayerMask detectionLayer; 
+    [SerializeField] LayerMask detectionLayer;
+    [SerializeField] LayerMask obstacleLayer;
 
     private void Update()
     {
@@ -21,9 +22,7 @@ public class LineOfSight : MonoBehaviour
 
         if (playerDetectedRight || playerDetectedLeft || playerDetectedFarRight || playerDetectedFarLeft || playerDetectedFarStraight)
         {
-            Debug.Log("Player detected! Switching to Chase state.");
-            // Add your state switch logic here, for example:
-            // ChangeState(Chase);
+            FindObjectOfType<StateMachine>().ChaseState();
         }
     }
 
@@ -31,16 +30,22 @@ public class LineOfSight : MonoBehaviour
     {
         Vector2 whiskerDirection = Quaternion.Euler(0, 0, angle) * transform.up;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, whiskerDirection, whiskerLength, detectionLayer);
+        RaycastHit2D obstacleHit = Physics2D.Raycast(transform.position, whiskerDirection, whiskerLength, obstacleLayer);
 
-        if (hit.collider != null)
+        // If we hit an obstacle, stop and don't check for the player
+        if (obstacleHit.collider != null)
         {
-            if (hit.collider.CompareTag("Player"))
-            {
-                rayColor = Color.green;
-                Debug.DrawRay(transform.position, whiskerDirection * whiskerLength, rayColor);
-                return true; 
-            }
+            Debug.DrawRay(transform.position, whiskerDirection * whiskerLength, Color.yellow);
+            return false;
+        }
+
+        // Cast another ray to detect the player if no obstacle is hit
+        RaycastHit2D playerHit = Physics2D.Raycast(transform.position, whiskerDirection, whiskerLength, detectionLayer);
+
+        if (playerHit.collider != null && playerHit.collider.CompareTag("Player"))
+        {
+            Debug.DrawRay(transform.position, whiskerDirection * whiskerLength, Color.green);
+            return true;
         }
 
         Debug.DrawRay(transform.position, whiskerDirection * whiskerLength, rayColor);

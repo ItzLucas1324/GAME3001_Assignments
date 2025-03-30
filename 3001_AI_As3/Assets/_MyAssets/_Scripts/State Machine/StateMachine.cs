@@ -13,11 +13,20 @@ public class StateMachine : MonoBehaviour
 
     public State currentState;
     private Patrol patrolScript;
+    private AgentAnimationController controller;
+    private Chase chase;
     bool isIdle = false;
 
     private void Awake()
     {
         patrolScript = GetComponent<Patrol>();
+        controller = FindObjectOfType<AgentAnimationController>();
+        chase = FindObjectOfType<Chase>();
+    }
+
+    private void Start()
+    {
+        currentState = State.Idle; // Set to Idle at the start
     }
 
     private void Update()
@@ -41,7 +50,8 @@ public class StateMachine : MonoBehaviour
         if (!isIdle)
         {
             isIdle = true;
-            Debug.Log("Entering Idle state");
+
+            controller.SetIdleState();
 
             StartCoroutine(IdleTimer());
         }
@@ -51,7 +61,6 @@ public class StateMachine : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        Debug.Log("Exiting Idle state, returning to Patrol");
         currentState = State.Patrol;
         isIdle = false;
     }
@@ -61,21 +70,24 @@ public class StateMachine : MonoBehaviour
         patrolScript.Patrolling();
         if (patrolScript.HasReachedPatrolPoint())  
         {
-            Debug.Log("Reached Patrol Point, going Idle");
             currentState = State.Idle;
         }
     }
 
-    private void ChaseState()
+    public void ChaseState()
     {
-        // Logic for chase state (not implemented in this example)
+        if (currentState != State.Chase)
+        {
+            currentState = State.Chase;
+            chase.StartChase();
+            Debug.Log("Switching to Chase state!");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Patrol Point"))
         {
-            Debug.Log("Entering Idle State");
             currentState = State.Idle;
         }
     }

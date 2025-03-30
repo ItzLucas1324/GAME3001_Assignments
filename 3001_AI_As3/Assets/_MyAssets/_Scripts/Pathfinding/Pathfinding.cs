@@ -9,6 +9,9 @@ public class Pathfinding : MonoBehaviour
     [SerializeField] Transform agentRotationChild;
     [SerializeField] AgentAnimationController anController;
     int currentPathIndex = 0;
+    int moveX;
+    int moveY;
+    bool isIdle = true;
 
     Grid grid;
 
@@ -20,6 +23,12 @@ public class Pathfinding : MonoBehaviour
     private void Start()
     {
         anController = FindObjectOfType<AgentAnimationController>();
+
+        if (anController != null)
+        {
+            anController.SetIdleState();
+            isIdle = true;
+        }
     }
 
     private void Update()
@@ -31,6 +40,20 @@ public class Pathfinding : MonoBehaviour
             {
                 MoveAlongPath();
             }
+            else if (!isIdle)
+            {
+                moveX = 0;
+                moveY = 0;
+                anController.UpdateAnimation(moveX, moveY);
+                isIdle = true;
+            }
+        }
+        else if (!isIdle)
+        {
+            moveX = 0;
+            moveY = 0;
+            anController.UpdateAnimation(moveX, moveY);
+            isIdle = true;
         }
     }
 
@@ -55,7 +78,7 @@ public class Pathfinding : MonoBehaviour
             }
 
             openSet.Remove(currentNode);
-            closeSet.Add(currentNode); 
+            closeSet.Add(currentNode);
 
             if (currentNode == targetNode)
             {
@@ -108,7 +131,6 @@ public class Pathfinding : MonoBehaviour
         int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
         return 10 * (dstX + dstY);
-       
     }
 
     void MoveAlongPath()
@@ -117,23 +139,68 @@ public class Pathfinding : MonoBehaviour
         {
             Vector3 targetPosition = grid.path[currentPathIndex].worldPosition;
 
+            if (Vector3.Distance(seeker.position, targetPosition) < 0.1f)
+            {
+                currentPathIndex++;
+
+                if (currentPathIndex >= grid.path.Count)
+                {
+                    moveX = 0;
+                    moveY = 0;
+                    anController.UpdateAnimation(moveX, moveY);
+                    isIdle = true;
+                    return;
+                }
+
+                if (currentPathIndex < grid.path.Count)
+                {
+                    targetPosition = grid.path[currentPathIndex].worldPosition;
+                }
+            }
+
             seeker.position = Vector3.MoveTowards(seeker.position, targetPosition, moveSpeed * Time.deltaTime);
 
             Vector3 directionToTarget = targetPosition - seeker.position;
 
+            bool needsUpdate = isIdle;
+            int newMoveX = 0;
+            int newMoveY = 0;
+
             if (Mathf.Abs(directionToTarget.x) > Mathf.Abs(directionToTarget.y))
             {
                 if (directionToTarget.x > 0)
+                {
+                    newMoveX = 1;
                     directionToTarget = Vector3.right;
+                }
                 else
+                {
+                    newMoveX = -1;
                     directionToTarget = Vector3.left;
+                }
+                newMoveY = 0;
             }
             else
             {
                 if (directionToTarget.y > 0)
+                {
+                    newMoveY = 1;
                     directionToTarget = Vector3.up;
+                }
                 else
+                {
+                    newMoveY = -1;
                     directionToTarget = Vector3.down;
+                }
+                newMoveX = 0;
+            }
+
+            if (newMoveX != moveX || newMoveY != moveY || isIdle)
+            {
+                moveX = newMoveX;
+                moveY = newMoveY;
+                anController.UpdateAnimation(moveX, moveY);
+                isIdle = false;
             }
 
             if (directionToTarget != Vector3.zero)
@@ -141,13 +208,13 @@ public class Pathfinding : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, directionToTarget);
                 agentRotationChild.rotation = targetRotation;
             }
-
-            anController.UpdateAnimation(directionToTarget);
-
-            if (Vector3.Distance(seeker.position, targetPosition) < 0.1f)
-            {
-                currentPathIndex++;
-            }
+        }
+        else if (!isIdle)
+        {
+            moveX = 0;
+            moveY = 0;
+            anController.UpdateAnimation(moveX, moveY);
+            isIdle = true;
         }
     }
 }

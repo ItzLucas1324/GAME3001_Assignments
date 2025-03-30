@@ -5,47 +5,71 @@ using UnityEngine;
 public class AgentAnimationController : MonoBehaviour
 {
     private Animator an;
+    private int lastMoveX = 0;
+    private int lastMoveY = 0;
+    private bool isInIdleState = true;
 
     void Start()
     {
         an = GetComponentInChildren<Animator>();
+
+        if (an == null)
+        {
+            Debug.LogError("Animator component not found in children!");
+            return;
+        }
+
+        SetIdleState();
     }
 
-    // Method to update the animation based on movement direction
-    public void UpdateAnimation(Vector3 movementDirection)
+    public void UpdateAnimation(int movementX, int movementY)
     {
-        // Debugging movement values
-        Debug.Log("Movement Direction: " + movementDirection);
-        Debug.Log("Movement Magnitude: " + movementDirection.magnitude);
+        if (an == null) return;
 
-        // If the agent is moving
-        if (movementDirection.magnitude > 0.1f)
+        if (movementX == lastMoveX && movementY == lastMoveY &&
+            (movementX != 0 || movementY != 0 || isInIdleState))
         {
-            Debug.Log("Agent is moving");
+            return;
+        }
 
-            // Determine whether it's moving horizontally or vertically
-            if (Mathf.Abs(movementDirection.x) > Mathf.Abs(movementDirection.y)) // Horizontal movement
+        lastMoveX = movementX;
+        lastMoveY = movementY;
+
+        bool isMoving = (movementX != 0 || movementY != 0);
+
+        if (isMoving)
+        {
+            Debug.Log($"Agent MOVING: X={movementX}, Y={movementY}");
+            isInIdleState = false;
+
+            an.SetBool("isRunning", true);
+
+            if (movementY != 0)
             {
-                an.SetBool("isRunning", true);
-                an.SetFloat("moveDirection", Mathf.Sign(movementDirection.x)); // Set move direction (1 for right, -1 for left)
-                an.SetBool("isMovingVertically", false);
-            }
-            else // Vertical movement
-            {
-                an.SetBool("isRunning", true);
-                an.SetFloat("moveDirectionY", Mathf.Sign(movementDirection.y)); // Set vertical move direction (1 for up, -1 for down)
                 an.SetBool("isMovingVertically", true);
+                an.SetFloat("moveDirectionY", movementY);
+                an.SetFloat("moveDirection", 0);
+            }
+            else
+            {
+                an.SetBool("isMovingVertically", false);
+                an.SetFloat("moveDirection", movementX);
+                an.SetFloat("moveDirectionY", 0);
             }
         }
-        else
-        {
-            // If the agent is not moving, set it to idle
-            Debug.Log("Agent is idle");
+    }
 
-            an.SetBool("isRunning", false);
-            an.SetBool("isMovingVertically", false);
-            an.SetFloat("moveDirection", 0f); // Reset horizontal direction
-            an.SetFloat("moveDirectionY", 0f); // Reset vertical direction
-        }
+    public void SetIdleState()
+    {
+        if (an == null) return;
+
+        an.SetBool("isRunning", false);
+        an.SetFloat("moveDirection", 0);
+        an.SetFloat("moveDirectionY", 0);
+        an.SetBool("isMovingVertically", false);
+
+        isInIdleState = true;
+        lastMoveX = 0;
+        lastMoveY = 0;
     }
 }
