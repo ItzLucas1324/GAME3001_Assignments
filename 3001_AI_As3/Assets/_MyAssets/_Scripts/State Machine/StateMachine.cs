@@ -31,7 +31,7 @@ public class StateMachine : MonoBehaviour
 
     private void Start()
     {
-        currentState = State.Idle; // Set to Idle at the start
+        currentState = State.Idle;
     }
 
     private void Update()
@@ -94,19 +94,20 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeStateText()
     {
-        GameManager.Instance.SoundManager.PlaySound("State Change", 0.3f);
-
         if (currentState == State.Idle)
         {
             stateText.text = "Idle";
+            GameManager.Instance.SoundManager.PlaySound("State Change", 0.3f);
         }
         else if (currentState == State.Patrol)
         {
             stateText.text = "Patrol";
+            GameManager.Instance.SoundManager.PlaySound("State Change", 0.3f);
         }
         else
         {
             stateText.text = "Chase";
+            GameManager.Instance.SoundManager.PlaySound("Detected", 0.3f);
         }
     }
 
@@ -124,6 +125,7 @@ public class StateMachine : MonoBehaviour
             if (currentState == State.Chase)
             {
                 scene.YouLose();
+                GameManager.Instance.SoundManager.StopSound();
             }
             else if (currentState == State.Idle || currentState == State.Patrol)
             {

@@ -51,12 +51,11 @@ public class LineOfSight : MonoBehaviour
             {
                 detectionTimer += Time.deltaTime;
 
-                // If timer exceeds the idle timeout, transition to Idle state
                 if (detectionTimer >= idleTimeout)
                 {
-                    isDetected = false;  // Mark the player as no longer detected
-                    pathfindingScript.target = null;  // Stop the movement (clear the target)
-                    stateMachine.IdleState();  // Transition to Idle state
+                    isDetected = false;
+                    pathfindingScript.target = null;
+                    stateMachine.IdleState();
                 }
             }
         }

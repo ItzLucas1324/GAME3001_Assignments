@@ -37,5 +37,6 @@ public class GameManager : MonoBehaviour
         SoundManager.AddSound("Player Walking", Resources.Load<AudioClip>("Audio/squidward-walking"), SoundType.SOUND_SFX);
         SoundManager.AddSound("Wall Bump", Resources.Load<AudioClip>("Audio/bumpintowall_pokemon"), SoundType.SOUND_SFX);
         SoundManager.AddSound("State Change", Resources.Load<AudioClip>("Audio/Randomize2"), SoundType.SOUND_SFX);
+        SoundManager.AddSound("Detected", Resources.Load<AudioClip>("Audio/999-social-credit-siren"), SoundType.SOUND_SFX);
     }
 }

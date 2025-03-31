@@ -167,5 +167,9 @@ public class SoundManager : MonoBehaviour
     public void StopMusic()
     {
         musicSource.Stop();
+
+    }public void StopSound()
+    {
+        sfxSource.Stop();
     }
 }
